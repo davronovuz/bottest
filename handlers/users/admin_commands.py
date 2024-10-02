@@ -21,7 +21,7 @@ async def admin_handler(msg: types.Message):
 @dp.message_handler(Text("Statistika 📊"))
 async def user_statistika_handler(msg: types.Message):
     if str(msg.from_user.id) in ADMINS:
-        await msg.answer(text=db.count_users(), reply_markup=admin_btn())
+        await msg.answer(text= f"Bazada {db.count_users()} ta foydalanuvchi bor", reply_markup=admin_btn())
     else:
         await msg.answer("Siz admin emassiz ❌", reply_markup=types.ReplyKeyboardRemove())
 
