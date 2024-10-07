@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
 from states.admin_state import ReklamaState,AddChannelState,DeleteChannelState
 from data.config import ADMINS
-
+from datetime import datetime, timedelta
 from keyboards.default.reply_keyboards import admin_btn, channels_btn,exit_btn
 
 
@@ -25,7 +25,43 @@ async def user_statistika_handler(msg: types.Message):
     else:
         await msg.answer("Siz admin emassiz ❌", reply_markup=types.ReplyKeyboardRemove())
 
+@dp.message_handler(commands="statistika📊")
+async def send_statistics(message: types.Message):
+    today = datetime.now()
+    daily_date = today - timedelta(days=1)   # So'nggi 1 kun
+    weekly_date = today - timedelta(weeks=1)  # So'nggi 1 hafta
+    monthly_date = today - timedelta(days=30)  # So'nggi 1 oy
 
+    # Kundalik foydalanuvchilar soni
+    daily_users = db.execute(
+        "SELECT COUNT(*) FROM Users WHERE created_at >= ?",
+        parameters=(daily_date,), fetchone=True
+    )[0]
+
+    # Haftalik foydalanuvchilar soni
+    weekly_users = db.execute(
+        "SELECT COUNT(*) FROM Users WHERE created_at >= ?",
+        parameters=(weekly_date,), fetchone=True
+    )[0]
+
+    # Oylik foydalanuvchilar soni
+    monthly_users = db.execute(
+        "SELECT COUNT(*) FROM Users WHERE created_at >= ?",
+        parameters=(monthly_date,), fetchone=True
+    )[0]
+
+    total_users = db.count_users()[0]  # Umumiy foydalanuvchilar soni
+
+    # Javob
+    stats_message = (
+        f"📊 Statistika:\n\n"
+        f"🟢 Kunlik foydalanuvchilar: {daily_users}\n"
+        f"🔵 Haftalik foydalanuvchilar: {weekly_users}\n"
+        f"🟣 Oylik foydalanuvchilar: {monthly_users}\n"
+        f"⚫️ Umumiy foydalanuvchilar: {total_users}"
+    )
+
+    await message.answer(stats_message)
 
 
 @dp.message_handler(Text("Reklama 🎁"))

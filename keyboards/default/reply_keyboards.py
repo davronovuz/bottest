@@ -3,7 +3,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 def admin_btn():
     btn = ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True, row_width=3)
-    statistika = KeyboardButton("statistika")
+    statistika = KeyboardButton("statistika📊")
     reklama = KeyboardButton("Reklama 🎁")
     add_chanell = KeyboardButton("Kanallar 🖇")
     return btn.add(statistika, reklama, add_chanell)
