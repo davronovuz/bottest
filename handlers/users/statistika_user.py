@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from loader import dp,db
 
 # Statistika handler
-@dp.message_handler(commands="statistika")
+@dp.message_handler(commands="Statistika 📊")
 async def send_statistics(message: types.Message):
     today = datetime.now()
     daily_date = today - timedelta(days=1)   # So'nggi 1 kun
