@@ -26,8 +26,7 @@ async def download_video_tiktok_ins_youtube(message: types.Message):
         response = requests.post(url, json=payload, headers=headers)
         response = response.json()
         video = response['medias'][0]['url']
-        title = response['title']
-        title+=f"\n\n 👉@fastyuklabot👈"
+        title=f"\n👉@fastyuklabot👈"
 
         if video:
             video_response = requests.get(video)
